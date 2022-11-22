@@ -20,7 +20,7 @@ public class Flight {
 
     }
 
-    public boolean doExistSearchFlightRequest(SearchFlightsRequest searchFlightsRequest) {
+    public boolean flightMatches(SearchFlightsRequest searchFlightsRequest) {
         return this.from.getAirport().equals(searchFlightsRequest.getFrom()) && this.to.getAirport().equals(searchFlightsRequest.getTo()) && this.departureTime.toString().equals(searchFlightsRequest.getDepartureDate());
     }
 

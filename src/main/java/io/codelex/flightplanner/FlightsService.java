@@ -85,7 +85,7 @@ public class FlightsService {
     }
 
     public List<Flight> listForSearchFlight(SearchFlightsRequest searchFlightsRequest) {
-        return this.flightsRepository.getFlightList().stream().filter(c -> c.doExistSearchFlightRequest(searchFlightsRequest)).toList();
+        return this.flightsRepository.getFlightList().stream().filter(c -> c.flightMatches(searchFlightsRequest)).toList();
     }
 
     public PageResult searchFlights(SearchFlightsRequest searchFlightsRequest) {
