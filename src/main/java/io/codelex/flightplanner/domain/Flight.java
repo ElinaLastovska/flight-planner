@@ -1,6 +1,7 @@
-package io.codelex.flightplanner.flights;
+package io.codelex.flightplanner.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.codelex.flightplanner.dto.SearchFlightsRequest;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -19,10 +20,8 @@ public class Flight {
 
     }
 
-    public boolean doExistSearchFlightRequest(SearchFlightsRequest searchFlightsRequest){
-        return this.from.getAirport().equals(searchFlightsRequest.getFrom())&&
-                this.to.getAirport().equals(searchFlightsRequest.getTo())&&
-                this.departureTime.toString().equals(searchFlightsRequest.getDepartureDate());
+    public boolean doExistSearchFlightRequest(SearchFlightsRequest searchFlightsRequest) {
+        return this.from.getAirport().equals(searchFlightsRequest.getFrom()) && this.to.getAirport().equals(searchFlightsRequest.getTo()) && this.departureTime.toString().equals(searchFlightsRequest.getDepartureDate());
     }
 
     public long getId() {
@@ -66,6 +65,7 @@ public class Flight {
     public void setDepartureTime(LocalDateTime departureTime) {
         this.departureTime = departureTime;
     }
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     public LocalDateTime getArrivalTime() {
         return arrivalTime;
@@ -89,13 +89,6 @@ public class Flight {
 
     @Override
     public String toString() {
-        return "Flight{" +
-                "id=" + id +
-                ", from=" + from +
-                ", to=" + to +
-                ", carrier='" + carrier + '\'' +
-                ", departureTime=" + departureTime +
-                ", arrivalTime=" + arrivalTime +
-                '}';
+        return "Flight{" + "id=" + id + ", from=" + from + ", to=" + to + ", carrier='" + carrier + '\'' + ", departureTime=" + departureTime + ", arrivalTime=" + arrivalTime + '}';
     }
 }

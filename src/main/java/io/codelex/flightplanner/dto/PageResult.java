@@ -1,6 +1,7 @@
-package io.codelex.flightplanner.flights;
+package io.codelex.flightplanner.dto;
 
-import java.lang.reflect.Array;
+import io.codelex.flightplanner.domain.Flight;
+
 import java.util.List;
 
 public class PageResult {
@@ -13,9 +14,11 @@ public class PageResult {
         this.totalItems = totalItems;
         this.items = items;
     }
+
     public PageResult() {
 
     }
+
     public int getPage() {
         return page;
     }

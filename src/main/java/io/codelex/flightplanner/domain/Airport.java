@@ -1,4 +1,4 @@
-package io.codelex.flightplanner.flights;
+package io.codelex.flightplanner.domain;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Objects;
@@ -16,11 +16,10 @@ public class Airport {
         this.city = city;
         this.airport = airport;
     }
-    public boolean doContains(String search){
-        String phrase = search.toLowerCase().replaceAll("\\s","");
-        return this.country.trim().toLowerCase().contains(phrase) ||
-                this.city.trim().toLowerCase().contains(phrase) ||
-                this.airport.trim().toLowerCase().contains(phrase);
+
+    public boolean doContains(String search) {
+        String phrase = search.toLowerCase().replaceAll("\\s", "");
+        return this.country.trim().toLowerCase().contains(phrase) || this.city.trim().toLowerCase().contains(phrase) || this.airport.trim().toLowerCase().contains(phrase);
 
     }
 
@@ -62,10 +61,6 @@ public class Airport {
 
     @Override
     public String toString() {
-        return "Airport{" +
-                "country='" + country + '\'' +
-                ", city='" + city + '\'' +
-                ", airport='" + airport + '\'' +
-                '}';
+        return "Airport{" + "country='" + country + '\'' + ", city='" + city + '\'' + ", airport='" + airport + '\'' + '}';
     }
 }
