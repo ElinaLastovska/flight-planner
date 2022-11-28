@@ -12,26 +12,26 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class CustomerController {
-    private final FlightsService flightsService;
+    private final FlightService flightService;
 
-    public CustomerController(FlightsService flightsService) {
-        this.flightsService = flightsService;
+    public CustomerController(FlightService flightService) {
+        this.flightService = flightService;
     }
 
     @GetMapping("/airports")
     @ResponseStatus(HttpStatus.OK)
     public List<Airport> searchAirports(@RequestParam String search) {
-        return flightsService.searchAirports(search);
+        return flightService.searchAirports(search);
     }
 
     @PostMapping("/flights/search")
     public PageResult searchFlights(@RequestBody SearchFlightsRequest searchFlightsRequest) {
-        return flightsService.searchFlights(searchFlightsRequest);
+        return flightService.searchFlights(searchFlightsRequest);
     }
 
     @GetMapping("/flights/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Flight findFlightById(@PathVariable int id) {
-        return this.flightsService.findFlightById(id);
+        return this.flightService.findFlightById(id);
     }
 }

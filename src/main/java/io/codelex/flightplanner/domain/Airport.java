@@ -1,20 +1,32 @@
 package io.codelex.flightplanner.domain;
 
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
+@Entity
 public class Airport {
     @NotBlank
+    @Column
     private String country;
     @NotBlank
+    @Column
     private String city;
     @NotBlank
+    @Id
     private String airport;
 
     public Airport(String country, String city, String airport) {
         this.country = country;
         this.city = city;
         this.airport = airport;
+    }
+
+    public Airport() {
+
     }
 
     public boolean doContains(String search) {

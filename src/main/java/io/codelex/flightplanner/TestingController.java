@@ -5,15 +5,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class TestingController {
-    private final FlightsService flightsService;
+    private final FlightService flightService;
 
-    public TestingController(FlightsService flightsService) {
-        this.flightsService = flightsService;
+    public TestingController(FlightService flightService) {
+        this.flightService = flightService;
     }
 
     @PostMapping("/testing-api/clear")
     public void clear() {
-        this.flightsService.clear();
+        this.flightService.clear();
     }
 
 }

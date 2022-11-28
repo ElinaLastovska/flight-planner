@@ -3,16 +3,28 @@ package io.codelex.flightplanner.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.codelex.flightplanner.dto.SearchFlightsRequest;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Entity
 public class Flight {
-
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+    @OneToOne
+    @JoinColumn(name = "Airport_from_id")
     private Airport from;
+    @ManyToOne
+    @JoinColumn(name = "Airport_to_id")
     private Airport to;
+    @Column
     private String carrier;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @Column(name = "departureTime", columnDefinition = "TIMESTAMP")
     private LocalDateTime departureTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @Column(name = "arrivalTime", columnDefinition = "TIMESTAMP")
     private LocalDateTime arrivalTime;
 
 
