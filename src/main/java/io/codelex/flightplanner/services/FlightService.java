@@ -1,4 +1,4 @@
-package io.codelex.flightplanner;
+package io.codelex.flightplanner.services;
 
 import io.codelex.flightplanner.domain.Airport;
 import io.codelex.flightplanner.domain.Flight;
@@ -15,8 +15,6 @@ public interface FlightService {
     Flight createFlight(FlightRequest flightRequest);
 
     Flight addFlight(FlightRequest flightRequest);
-
-    boolean exists(Flight flight);
 
     boolean isAirportsSame(Flight flight);
 

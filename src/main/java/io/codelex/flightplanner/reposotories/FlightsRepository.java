@@ -1,4 +1,4 @@
-package io.codelex.flightplanner;
+package io.codelex.flightplanner.reposotories;
 
 import io.codelex.flightplanner.domain.Flight;
 import org.springframework.stereotype.Repository;

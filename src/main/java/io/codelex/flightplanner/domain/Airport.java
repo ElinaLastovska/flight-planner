@@ -1,7 +1,6 @@
 package io.codelex.flightplanner.domain;
 
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
@@ -10,13 +9,11 @@ import java.util.Objects;
 @Entity
 public class Airport {
     @NotBlank
-    @Column
     private String country;
     @NotBlank
-    @Column
     private String city;
-    @NotBlank
     @Id
+    @NotBlank
     private String airport;
 
     public Airport(String country, String city, String airport) {
@@ -32,7 +29,6 @@ public class Airport {
     public boolean doContains(String search) {
         String phrase = search.toLowerCase().replaceAll("\\s", "");
         return this.country.trim().toLowerCase().contains(phrase) || this.city.trim().toLowerCase().contains(phrase) || this.airport.trim().toLowerCase().contains(phrase);
-
     }
 
     @Override

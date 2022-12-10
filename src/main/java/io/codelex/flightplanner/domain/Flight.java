@@ -4,27 +4,29 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.codelex.flightplanner.dto.SearchFlightsRequest;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
 public class Flight {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @OneToOne
-    @JoinColumn(name = "Airport_from_id")
+    @JoinColumn(name = "airport_from")
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @Valid
     private Airport from;
-    @ManyToOne
-    @JoinColumn(name = "Airport_to_id")
+    @JoinColumn(name = "airport_to")
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @Valid
     private Airport to;
-    @Column
+    @NotBlank
     private String carrier;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    @Column(name = "departureTime", columnDefinition = "TIMESTAMP")
     private LocalDateTime departureTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    @Column(name = "arrivalTime", columnDefinition = "TIMESTAMP")
     private LocalDateTime arrivalTime;
 
 
@@ -36,14 +38,13 @@ public class Flight {
         return this.from.getAirport().equals(searchFlightsRequest.getFrom()) && this.to.getAirport().equals(searchFlightsRequest.getTo()) && this.departureTime.toString().equals(searchFlightsRequest.getDepartureDate());
     }
 
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
-
 
     public Airport getFrom() {
         return from;
@@ -91,7 +92,7 @@ public class Flight {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Flight flight)) return false;
-        return id == flight.id && from.equals(flight.from) && to.equals(flight.to) && carrier.equals(flight.carrier) && departureTime.equals(flight.departureTime) && arrivalTime.equals(flight.arrivalTime);
+        return id.equals(flight.id) && from.equals(flight.from) && to.equals(flight.to) && carrier.equals(flight.carrier) && departureTime.equals(flight.departureTime) && arrivalTime.equals(flight.arrivalTime);
     }
 
     @Override

@@ -1,10 +1,11 @@
-package io.codelex.flightplanner;
+package io.codelex.flightplanner.services;
 
 import io.codelex.flightplanner.domain.Airport;
 import io.codelex.flightplanner.domain.Flight;
 import io.codelex.flightplanner.dto.FlightRequest;
 import io.codelex.flightplanner.dto.PageResult;
 import io.codelex.flightplanner.dto.SearchFlightsRequest;
+import io.codelex.flightplanner.reposotories.FlightsRepository;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -61,15 +62,21 @@ public class FlightsServiceInMemory implements FlightService {
         }
     }
 
-    @Override
-    public boolean exists(Flight flight) {
-        return this.flightsRepository.getFlightList().stream().anyMatch(flightsInList -> flightsInList.getFrom().equals(flight.getFrom()) && flightsInList.getTo().equals(flight.getTo()) && flightsInList.getCarrier().equals(flight.getCarrier()) && flightsInList.getArrivalTime().equals(flight.getArrivalTime()) && flightsInList.getDepartureTime().equals(flight.getDepartureTime()));
+    private boolean exists(Flight flight) {
+        return this.flightsRepository.getFlightList().stream().anyMatch(flightsInList -> flightsInList.getFrom().equals(flight.getFrom())
+                && flightsInList.getTo().equals(flight.getTo()) && flightsInList.getCarrier().equals(flight.getCarrier())
+                && flightsInList.getArrivalTime().equals(flight.getArrivalTime()) && flightsInList.getDepartureTime().equals(flight.getDepartureTime()));
     }
 
     @Override
     public boolean isAirportsSame(Flight flight) {
 
-        return flight.getFrom().getAirport().replaceAll("\\s+", "").equalsIgnoreCase(flight.getTo().getAirport().replaceAll("\\s+", "")) && flight.getFrom().getCity().replaceAll("\\s+", "").equalsIgnoreCase(flight.getTo().getCity().replaceAll("\\s+", "")) && flight.getFrom().getCountry().replaceAll("\\s+", "").equalsIgnoreCase(flight.getTo().getCountry().replaceAll("\\s+", ""));
+        return flight.getFrom().getAirport()
+                .equalsIgnoreCase(flight.getTo().getAirport().replaceAll("\\s+", ""))
+                && flight.getFrom().getCity().replaceAll("\\s+", "")
+                .equalsIgnoreCase(flight.getTo().getCity().replaceAll("\\s+", ""))
+                && flight.getFrom().getCountry().replaceAll("\\s+", "")
+                .equalsIgnoreCase(flight.getTo().getCountry().replaceAll("\\s+", ""));
 
     }
 

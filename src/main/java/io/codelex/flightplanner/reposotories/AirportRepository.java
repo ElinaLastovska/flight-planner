@@ -1,4 +1,4 @@
-package io.codelex.flightplanner;
+package io.codelex.flightplanner.reposotories;
 
 import io.codelex.flightplanner.domain.Airport;
 import org.springframework.data.jpa.repository.JpaRepository;
