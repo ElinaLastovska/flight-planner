@@ -48,12 +48,10 @@ public class FlightServiceDB implements FlightService {
 
 
     private void saveIfDoesNotExist(Airport doExistAirport) {
-
         Optional<Airport> maybeAirport = airportRepository.findById(doExistAirport.getAirport());
         if (maybeAirport.isEmpty()) {
             airportRepository.save(doExistAirport);
         }
-
     }
 
     @Override
@@ -68,11 +66,12 @@ public class FlightServiceDB implements FlightService {
         flight.setCarrier(flightRequest.getCarrier());
         flight.setArrivalTime(parseDateTime(flightRequest.getArrivalTime()));
         flight.setDepartureTime(parseDateTime(flightRequest.getDepartureTime()));
+
         return flight;
     }
 
     @Override
-    public Flight addFlight(FlightRequest flightRequest) {
+    public synchronized Flight addFlight(FlightRequest flightRequest) {
         Flight flight = createFlight(flightRequest);
         List<Flight> maybeExist = flightRepository.findByArrivalTimeAndDepartureTimeAndCarrierAndFromAndTo(flight.getArrivalTime(),
                 flight.getDepartureTime(), flight.getCarrier(), flight.getFrom(), flight.getTo());
@@ -83,6 +82,7 @@ public class FlightServiceDB implements FlightService {
         } else if (!isDatesCorrect(flight)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There are problem with time");
         } else
+
             return flightRepository.save(flight);
     }
 
@@ -106,22 +106,38 @@ public class FlightServiceDB implements FlightService {
 
 
     @Override
-    public void deleteFlight(int id) {
-
+    public synchronized void deleteFlight(int id) {
+        Optional<Flight> maybeFlight = flightRepository.findById(id);
+        Flight flightToDelete = maybeFlight.orElseThrow(() -> new ResponseStatusException(HttpStatus.OK));
+        flightRepository.delete(flightToDelete);
     }
 
     @Override
     public List<Airport> searchAirports(String search) {
-        return null;
+        String phraseToSearch = search.toLowerCase().replaceAll("\\s", "");
+
+        return airportRepository.findAirportsByAirportContainingIgnoreCaseOrCityContainingIgnoreCaseOrCountryContainsIgnoreCase(phraseToSearch, phraseToSearch, phraseToSearch);
     }
 
     @Override
     public PageResult searchFlights(SearchFlightsRequest searchFlightsRequest) {
-        return null;
+        if (searchFlightsRequest.getTo() == null || searchFlightsRequest.getFrom() == null
+                && searchFlightsRequest.getDepartureDate() == null || searchFlightsRequest.getFrom().equals(searchFlightsRequest.getTo())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Airports from and to can not be the same");
+        }
+        List<Flight> flights = flightRepository.searchFlights(
+                searchFlightsRequest.getFrom(),
+                searchFlightsRequest.getTo(),
+                searchFlightsRequest.getDepartureDateAsDate().atStartOfDay(),
+                searchFlightsRequest.getDepartureDateAsDate().plusDays(1).atStartOfDay());
+
+        return new PageResult(0, flights.size(), flights);
     }
 
     @Override
     public Flight findFlightById(int id) {
-        return null;
+        Optional<Flight> maybeFlight = flightRepository.findById(id);
+
+        return maybeFlight.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 }

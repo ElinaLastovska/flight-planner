@@ -64,8 +64,10 @@ public class FlightsServiceInMemory implements FlightService {
 
     private boolean exists(Flight flight) {
         return this.flightsRepository.getFlightList().stream().anyMatch(flightsInList -> flightsInList.getFrom().equals(flight.getFrom())
-                && flightsInList.getTo().equals(flight.getTo()) && flightsInList.getCarrier().equals(flight.getCarrier())
-                && flightsInList.getArrivalTime().equals(flight.getArrivalTime()) && flightsInList.getDepartureTime().equals(flight.getDepartureTime()));
+                && flightsInList.getTo().equals(flight.getTo())
+                && flightsInList.getCarrier().equals(flight.getCarrier())
+                && flightsInList.getArrivalTime().equals(flight.getArrivalTime())
+                && flightsInList.getDepartureTime().equals(flight.getDepartureTime()));
     }
 
     @Override
@@ -82,7 +84,9 @@ public class FlightsServiceInMemory implements FlightService {
 
     @Override
     public boolean isDatesCorrect(Flight flight) {
-        return flight.getArrivalTime().isAfter(flight.getDepartureTime()) && flight.getArrivalTime().isAfter(flight.getDepartureTime().plusMinutes(2)) && flight.getArrivalTime().isBefore(flight.getArrivalTime().plusHours(19L));
+        return flight.getArrivalTime().isAfter(flight.getDepartureTime())
+                && flight.getArrivalTime().isAfter(flight.getDepartureTime().plusMinutes(2))
+                && flight.getArrivalTime().isBefore(flight.getArrivalTime().plusHours(19L));
     }
 
     @Override
@@ -111,7 +115,8 @@ public class FlightsServiceInMemory implements FlightService {
         pageResult.setPage(0);
         pageResult.setTotalItems(pageResult.getItems().size());
 
-        if (searchFlightsRequest.getTo() == null || searchFlightsRequest.getFrom() == null && searchFlightsRequest.getDepartureDate() == null || searchFlightsRequest.getFrom().equals(searchFlightsRequest.getTo())) {
+        if (searchFlightsRequest.getTo() == null || searchFlightsRequest.getFrom() == null
+                && searchFlightsRequest.getDepartureDate() == null || searchFlightsRequest.getFrom().equals(searchFlightsRequest.getTo())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Airports from and to can not be the same");
         }
         return pageResult;

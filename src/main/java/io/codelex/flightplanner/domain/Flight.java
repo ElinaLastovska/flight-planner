@@ -35,7 +35,8 @@ public class Flight {
     }
 
     public boolean flightMatches(SearchFlightsRequest searchFlightsRequest) {
-        return this.from.getAirport().equals(searchFlightsRequest.getFrom()) && this.to.getAirport().equals(searchFlightsRequest.getTo()) && this.departureTime.toString().equals(searchFlightsRequest.getDepartureDate());
+        return this.from.getAirport().equals(searchFlightsRequest.getFrom()) && this.to.getAirport().equals(searchFlightsRequest.getTo())
+                && this.departureTime.toString().equals(searchFlightsRequest.getDepartureDate());
     }
 
     public Integer getId() {
